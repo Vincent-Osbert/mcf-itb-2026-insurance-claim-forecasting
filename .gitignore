@@ -1,0 +1,6 @@
+*.csv
+*.pdf
+outputs/
+output_v*/
+.ipynb_checkpoints/
+__pycache__/

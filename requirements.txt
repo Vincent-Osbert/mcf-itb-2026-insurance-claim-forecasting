@@ -1,0 +1,9 @@
+numpy
+pandas
+scipy
+scikit-learn
+statsmodels
+lightgbm
+matplotlib
+seaborn
+prophet  # optional, cells skip it when missing
