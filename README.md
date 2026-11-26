@@ -4,10 +4,22 @@ Forecast monthly claim frequency, claim severity and total claim cost for August
 
 | | |
 |---|---|
-| Private leaderboard | 88th, MAPE 16.19847 |
-| Public leaderboard | 28th, MAPE 0.55542 |
-| Best internal holdout (v25, no leakage) | MAPE 5.23% |
+| Data | 4,627 paid claims, 4,096 policies, 19 monthly points |
 | Targets | 15 values: 3 series × 5 months |
+| Best internal holdout (v25, no leakage) | MAPE 5.23% |
+| Competition result | see [Leaderboard](#leaderboard) |
+
+## Ringkasan untuk HR dan pembaca non-IT
+
+**Masalahnya.** Dari 19 bulan data klaim asuransi kesehatan (4.627 klaim, 4.096 polis), ramalkan jumlah klaim, rata-rata biaya per klaim, dan total biaya klaim untuk 5 bulan berikutnya.
+
+**Yang saya kerjakan.** Membandingkan beberapa model deret waktu (Kalman filter, Holt-Winters, SARIMAX, Prophet, dan LightGBM). Saya menemukan bahwa salah satu versi model (v24) terlihat paling akurat karena koreksinya dihitung memakai bulan ujian, lalu membangun ulang versi bersih (v25).
+
+**Hasilnya.** Hasil lomba kurang baik: skor uji akhir jauh lebih buruk dari perkiraan internal (lihat bagian Leaderboard). Pelajarannya jelas: ujian internal harus meniru jarak ramalan yang sebenarnya, dan dengan data sependek ini model sederhana lebih aman daripada ensemble besar.
+
+**Gunanya di perusahaan.** Forecasting klaim dipakai perusahaan asuransi untuk menyiapkan cadangan dana dan menghitung premi. Proyek ini juga menunjukkan kebiasaan memeriksa kebocoran data sebelum angka akurasi dilaporkan.
+
+**Kemampuan yang terbukti.** Forecasting klaim asuransi · model deret waktu klasik · deteksi kebocoran validasi · evaluasi kegagalan secara terbuka.
 
 ## The problem
 
@@ -38,6 +50,11 @@ All versions are scored the same way: hold out the last five known months (March
 v24 looks best, but its bias factors are fitted on the full series, holdout months included, and then reused inside the holdout simulation. v25 removes that and lands back at the teammate's level. In walk-forward CV, v25 scores 6.69% on frequency, 7.40% on severity and 13.87% on total cost.
 
 ## Leaderboard
+
+| | |
+|---|---|
+| Private leaderboard (final) | 88th, MAPE 16.19847 |
+| Public leaderboard (probed, not a result) | 28th, MAPE 0.55542 |
 
 The public leaderboard covers only August and September 2025, six numbers in all. It can be probed, and the public scores near 0.0002 at the top show that many teams did. A teammate probed it to keep the team near the finals cutoff. The 0.555% public score reflects that probing, not the models in this repository, which is why this README does not treat it as a result.
 
